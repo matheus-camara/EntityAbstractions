@@ -7,10 +7,10 @@ namespace EntityAbstractions;
 
 public class AuditableEntity : TrackableEntity
 {
-    public DateTime? Created { get; }
-    public Guid? CreatedBy { get; }
-    public DateTime? Modified { get; }
-    public Guid? ModifiedBy { get; }
+    public DateTime? Created { get; init; }
+    public Guid? CreatedBy { get; init; }
+    public DateTime? Modified { get; private set; }
+    public Guid? ModifiedBy { get; private set; }
 
     protected AuditableEntity() : base()
     {
@@ -18,5 +18,11 @@ public class AuditableEntity : TrackableEntity
 
     protected AuditableEntity(Guid? id) : base(id)
     {
+    }
+
+    protected void Updated(Guid id)
+    {
+        ModifiedBy = id;
+        Modified = DateTime.UtcNow;
     }
 }
